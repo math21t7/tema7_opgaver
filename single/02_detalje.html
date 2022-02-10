@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style></style>
+  </head>
+  <body>
+    <article>
+      <img src="" alt="" />
+      <h2></h2>
+      <p class="email"></p>
+    </article>
+    <button>Tilbage</button>
+    <script>
+      //hent alle URL-parametrene ud (vi har kun et)
+      const urlParams = new URLSearchParams(window.location.search);
+      //hent det enlige parameter ud der hedder id
+      const id = urlParams.get("id");
+
+      const url = "https://tema7-58c0.restdb.io/rest/medlemmer/";
+      let person;
+      const options = {
+        headers: {
+          "x-apikey": "61fcff273f215f310a37be97",
+        },
+      };
+      document.addEventListener("DOMContentLoaded", hentData);
+      async function hentData() {
+        console.log("hentdata");
+        //sæt id fra url-parametrene ind i kald til restdb og modtag kun en post.
+        const JSONData = await fetch(
+          `https://tema7-58c0.restdb.io/rest/medlemmer/${id}`,
+          options
+        );
+        person = await JSONData.json();
+        vis(person);
+      }
+      function vis(person) {
+        document.querySelector("h2").textContent = person.fornavn;
+        document.querySelector(".email").textContent = person.email;
+        document.querySelector("img").src = "faces/" + person.profilbillede;
+        //tilføj eventlistener der lytter efter klik på tilbage knap
+        document.querySelector("button").addEventListener("click", tilbage);
+      }
+      function tilbage() {
+        // manipulerer med browser history og går et skridt tilbage i historikken
+        history.back();
+      }
+    </script>
+  </body>
+</html>

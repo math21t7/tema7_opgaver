@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      img {
+        width: 100%;
+      }
+      article {
+        border: 3px solid orange;
+        border-radius: 10px;
+      }
+      section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+      }
+      .valgt {
+        background-color: coral;
+      }
+      #popup {
+        display:none;
+        width:100vw;
+        height:100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        background-color:rgba(0,0,0,0.8);
+        overflow:scroll;
+      }
+      #popup article{
+        max-width: 500px;
+        margin: auto;
+        background-color: white;
+      }
+
+      #luk{
+        position:fixed;
+        padding:1em;
+        font-size:1.7em;
+        font-weight:bolder;
+        color:white;
+        cursor:pointer;
+      }
+    </style>
+  </head>
+  <body>
+      <header>
+        <h1>Alle</h1>
+          <nav>
+        <button data-kategori="alle" class="valgt">Alle</button>
+        <button data-kategori="ja">Troende</button>
+        <button data-kategori="nej">Ikke troende</button>
+        <button data-kategori="tvivler">Tvivler</button>
+      </nav>
+    </header>
+        <section id="popup">
+        <div id="luk">&#x2715</div>
+        <article>
+          <img src="" alt="">
+          <h2></h2>
+          <p>Email: <span class="email"></span></p>
+          <p>Troende: <span class="troende"></span></p>
+        </article>
+      </section>
+    <section id="datapersoner"></section>
+    <template>
+      <article>
+        <img src="" alt="" />
+        <h2></h2>
+        <p class="email"></p>
+      </article>
+    </template>
+    <script>
+      const header = document.querySelector("header h1");
+      const url = "https://tema7-58c0.restdb.io/rest/medlemmer";
+
+      const options = {
+        headers: {
+          "x-apikey": "61fcff273f215f310a37be97",
+        },
+      };
+      document.addEventListener("DOMContentLoaded", start);
+
+      //lav variabler
+       let personer;
+      let filter = "alle";
+      //første funktion der kaldes efter DOM er loaded
+      function start() {
+        const filterknapper = document.querySelectorAll("nav button");
+        filterknapper.forEach((knap) =>
+          knap.addEventListener("click", filtrerPersoner) //addevenlistener på alle knapper
+        );
+      }
+//filtrer personer
+      function filtrerPersoner() {
+        filter = this.dataset.kategori;
+        document.querySelector(".valgt").classList.remove("valgt"); // fjern klassen "valgt" fra den knap der VAR valgt
+        this.classList.add("valgt"); //tilføj class til knappen der er trykket på
+        header.textContent = this.textContent;
+        vis(personer)
+      }
+
+      //hent json data
+      async function hentData() {
+        console.log("hentdata");
+        const resspons = await fetch(url, options);
+        personer = await resspons.json();
+        vis(personer);
+      }
+      hentData();
+
+
+      function vis(personer) {
+        console.log(personer);
+        const main = document.querySelector("#datapersoner");
+        const template = document.querySelector("template");
+        main.textContent = "" //fjern indhold inden nyt loop
+
+        personer.forEach((person) => {
+             if (filter == person.troende || filter == "alle") {
+          let klon = template.cloneNode(true).content;
+          klon.querySelector("h2").textContent = person.fornavn;
+          klon.querySelector(".email").textContent = person.email;
+          klon.querySelector("img").src = "faces/" + person.profilbillede;
+          // tilføj eventListener der lytter efter klik på en person/article
+          klon.querySelector("article").addEventListener("click",() => visDetaljer(person))
+          main.appendChild(klon);
+             }
+        });
+      }
+
+      //popup funktion der går igang ved tryk på en person(article)
+      function visDetaljer(person){
+        console.log(person)
+        popup.style.display="block";
+        popup.querySelector("img").src="faces/"+person.profilbillede;
+        popup.querySelector("h2").textContent=person.fornavn +""+person.efternavn;
+        popup.querySelector(".email").textContent=person.email;
+        popup.querySelector(".troende").textContent=person.troende;
+      }
+
+      //fjerne popup ved tryk på X (luk-knappen)
+      document.querySelector("#luk").addEventListener("click",()=>popup.style.display="none")
+    </script>
+
+  </body>
+</html>

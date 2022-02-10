@@ -1,0 +1,20 @@
+[
+  {
+    "navn": "Gris",
+    "type": "pattedyr",
+    "levested": "grisefarmen",
+    "emner": ["tryne", "lyserød", "øf"]
+  },
+  {
+    "navn": "Frø",
+    "type": "amfibie",
+    "levested": "vandhullet",
+    "emner": ["grøn", "hop", "lille"]
+  },
+  {
+    "navn": "Ræv",
+    "type": "pattedyr",
+    "levested": "skoven",
+    "emner": ["rød", "snue", "snedig"]
+  }
+]

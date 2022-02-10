@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      img {
+        width: 100%;
+      }
+      section {
+        max-width: 1000px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 20px;
+      }
+      article:nth-child(2) {
+        color: red;
+      }
+      article {
+        box-shadow: 5px 5px 10px -1px rgba(0, 0, 0, 0.75);
+      }
+    </style>
+  </head>
+  <body>
+    <header><h1>Titel</h1></header>
+    <main>
+      <h2>Undertitel</h2>
+      <section>
+        <article>
+          <img src="https://placeimg.com/640/480/tech/sepia" alt="tech" />
+          <h3>Article 1</h3>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            Doloremque, perferendis! Corporis, fugiat quia neque recusandae fuga
+            repellat consectetur sunt atque voluptatum sint suscipit laborum
+            sed. Facere sequi qui quidem exercitationem!
+          </p>
+        </article>
+        <article>
+          <img src="https://placeimg.com/640/480/animals/sepia" alt="Kvinde" />
+          <h3>Article 2</h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit porro
+            repellat quae incidunt atque praesentium, amet sapiente voluptates
+            tempore repellendus! Quisquam temporibus, possimus sit blanditiis
+            natus incidunt quam maxime alias!
+          </p>
+        </article>
+      </section>
+    </main>
+    <footer></footer>
+  </body>
+  <script>
+    //tjek om DOM er loaded
+    document.addEventListener("DOMContentLoaded", start);
+    function start() {
+      console.log("DOM er loaded");
+    }
+
+    //gør elementer til const
+    const header = document.querySelector("header");
+    const article2 = document.querySelector("article:nth-child(2) p");
+    const overskrift = document.querySelector("h1");
+    const underoverskrift = document.querySelector("h2");
+    const article1 = document.querySelector("article:nth-child(1) p");
+    const firsth3 = document.querySelector("article:nth-child(1) h3");
+    const sndh3 = document.querySelector("article:nth-child(2) h3");
+    const img1 = document.querySelector("article:nth-child(1) img");
+    const img2 = document.querySelector("article:nth-child(2) img");
+
+    //consol logs
+
+    console.log(header);
+    console.log(overskrift.textContent);
+    console.log(underoverskrift.textContent);
+    console.log(img1);
+    console.log(article1);
+    console.log(img2);
+    console.log(article2);
+    console.log(firsth3);
+    console.log(sndh3);
+
+    //tekst ændringer
+
+    overskrift.textContent = "Yes, den er god nok";
+    firsth3.textContent = "Kan det være sandt?";
+    sndh3.innerHTML = "Jo, det er sandt";
+    article1.innerHTML = "Her står der noget spændende om den her artikel";
+    article2.innerHTML =
+      "Her står der <b>noget</b> spændende om den her artikel";
+
+    //billede ændringer
+    img1.src = "https://placeimg.com/640/480/nature/sepia";
+    img1.alt = "natur billede";
+    img2.src = "https://placeimg.com/640/480/arch/grayscale";
+    img2.alt = "arkitektur billede";
+
+    //ny artikel//
+    let newArticle = document.createElement("article");
+    //ny h3 element
+    let overskrift1 = document.createElement("h3");
+    //Tekst til ny overskrift
+    let overskriftText = document.createTextNode("Article 3");
+    //indsæt tekst i overskrift
+    overskrift1.appendChild(overskriftText);
+    //tilføj overskrift til article
+    newArticle.appendChild(overskrift1);
+    //ny p element
+    let p1 = document.createElement("p");
+    //Tekst til ny p
+    let pText = document.createTextNode("Lorem ipsum");
+    //indsæt p i artikel
+    p1.appendChild(pText);
+    //tilføje p til artikel
+    newArticle.appendChild(p1);
+    //ny img element
+    let img3 = document.createElement("img");
+    img3.src = "https://placeimg.com/640/480/animals";
+    //tilføj img til artikel
+    newArticle.appendChild(img3);
+    //tilføj artikel til sektion
+    let mainSection = document.querySelector("section");
+    mainSection.appendChild(newArticle);
+
+    //skift billede ved tryk
+    img1.addEventListener("click", changePhoto);
+    function changePhoto() {
+      let tilfældigtTal = Math.floor(Math.random() * 10 + 1);
+      img1.src = "https://placeimg.com/400/300/arch?t=" + tilfældigtTal;
+    }
+
+    //tilføj og fjern box-shadow på artikler
+
+    //fjern ved mouseover
+    const artikler = document.querySelectorAll("article");
+    artikler.forEach((element) =>
+      element.addEventListener("mouseover", () => {
+        element.style.boxShadow = "none";
+      })
+    );
+
+    //tilføj ved mouseout
+    artikler.forEach((element) =>
+      element.addEventListener("mouseout", () => {
+        element.style.boxShadow = "5px 5px 10px -1px rgba(0, 0, 0, 0.75)";
+      })
+    );
+  </script>
+</html>

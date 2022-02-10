@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <article id="dyr"></article>
+
+    <script>
+      //dyr array
+      const dyr = [
+        {
+          navn: "Gris",
+          type: "pattedyr",
+          levested: "grisefarmen",
+          billede: "http://mabe-kea.dk/E19/pics/frog.png",
+        },
+        {
+          navn: "Frø",
+          type: "amfibie",
+          levested: "vandhullet",
+          billede: "http://mabe-kea.dk/E19/pics/pig.png",
+        },
+        {
+          navn: "Ræv",
+          type: "pattedyr",
+          levested: "skoven",
+          billede: "http://mabe-kea.dk/E19/pics/fox.png",
+        },
+        {
+          navn: "Sild",
+          type: "fisk",
+          levested: "havet",
+          billede: "http://mabe-kea.dk/E19/pics/sild.jpg",
+        },
+        {
+          navn: "Krokodille",
+          type: "krybdyr",
+          levested: "floden",
+          billede: "http://mabe-kea.dk/E19/pics/kroko.jpg",
+        },
+      ];
+      console.log(dyr);
+
+      //DOM load
+      document.addEventListener("DOMContentLoaded", () => {
+        console.log("DOM loaded");
+
+        // destination (article)
+        const destination = document.querySelector("article");
+
+        //dyreinfo
+        const dyrInfo = `navn:${dyr.navn},type:${dyr.type},levested:${dyr.levested}`;
+
+        //indsæt tekst i destination (article)
+        destination.textContent = dyrInfo;
+
+        //tilføj billede
+        let pic = document.createElement("img");
+        pic.src = dyr.billede;
+        destination.appendChild(pic);
+      });
+    </script>
+  </body>
+</html>
